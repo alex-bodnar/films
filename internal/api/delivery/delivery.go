@@ -9,4 +9,9 @@ type (
 	StatusHTTP interface {
 		CheckStatus(ctx *fiber.Ctx) error
 	}
+
+	// FilmHTTP – describes an interface for work with film over HTTP.
+	FilmHTTP interface {
+		GetByName(ctx *fiber.Ctx) error
+	}
 )

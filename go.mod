@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/golang/mock v1.5.0
 	github.com/jackc/pgx v3.6.2+incompatible
 	github.com/jmoiron/sqlx v1.3.5
 	go.uber.org/zap v1.21.0
@@ -28,6 +29,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.36.0
 	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
+	github.com/lib/pq v1.10.6
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rubenv/sql-migrate v1.1.2
 	github.com/shopspring/decimal v1.3.1 // indirect

@@ -8,6 +8,8 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"films-api/internal/api/delivery"
+	"films-api/internal/api/repository"
+	"films-api/internal/api/services"
 	"films-api/internal/config"
 	"films-api/pkg/http/responder"
 	"films-api/pkg/log"
@@ -45,8 +47,15 @@ type (
 
 		responder responder.Responder
 
+		// Repository dependencies.
+		filmPostgres repository.FilmPostgres
+
+		// Service dependencies.
+		filmService services.FilmService
+
 		// Delivery dependencies.
 		statusHTTPHandler delivery.StatusHTTP
+		filmHTTPHandler   delivery.FilmHTTP
 	}
 
 	worker func(ctx context.Context, a *App)
