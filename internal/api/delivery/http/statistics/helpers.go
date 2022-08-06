@@ -27,9 +27,9 @@ func toStatisticResponse(domain statistics.FilmStatistic) statisticResponse {
 	return statisticResponse{
 		ID:         domain.ID,
 		Request:    domain.Request,
-		TimeDB:     domain.TimeDB.Milliseconds(),
-		TimeRedis:  domain.TimeRedis.Milliseconds(),
-		TimeMemory: domain.TimeMemory.Milliseconds(),
+		TimeDB:     domain.TimeDB.Microseconds(),
+		TimeRedis:  domain.TimeRedis.Microseconds(),
+		TimeMemory: domain.TimeMemory.Microseconds(),
 	}
 }
 

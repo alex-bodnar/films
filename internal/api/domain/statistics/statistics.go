@@ -21,8 +21,41 @@ type (
 		TimeDB     time.Duration
 		TimeRedis  time.Duration
 		TimeMemory time.Duration
+
+		startTime time.Time
 	}
 )
+
+// NewFilmStatistic - constructor.
+func NewFilmStatistic(request string) FilmStatistic {
+	return FilmStatistic{
+		Request:   request,
+		startTime: time.Now(),
+	}
+}
+
+// ResetTime - reset start time.
+func (f *FilmStatistic) ResetTime() {
+	f.startTime = time.Now()
+}
+
+// FinishDB - set database request time.
+func (f *FilmStatistic) FinishDB() {
+	f.TimeDB = time.Since(f.startTime)
+	f.ResetTime()
+}
+
+// FinishRedis - set redis request time.
+func (f *FilmStatistic) FinishRedis() {
+	f.TimeRedis = time.Since(f.startTime)
+	f.ResetTime()
+}
+
+// FinishMemory - set memory request time.
+func (f *FilmStatistic) FinishMemory() {
+	f.TimeMemory = time.Since(f.startTime)
+	f.ResetTime()
+}
 
 // SetFilmStatisticValue - update non-zero value of statistic.
 func (f *FilmStatistic) SetFilmStatisticValue(stat FilmStatistic) {

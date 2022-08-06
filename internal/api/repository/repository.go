@@ -22,4 +22,10 @@ type (
 		Create(ctx context.Context, stat statistics.FilmStatistic) error
 		Update(ctx context.Context, stat statistics.FilmStatistic) error
 	}
+
+	// FilmCache - describe an interface for working with cache.
+	FilmCache interface {
+		SetByName(ctx context.Context, name string, data film.FilmList) error
+		GetByName(ctx context.Context, name string) (film.FilmList, error)
+	}
 )

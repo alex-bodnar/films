@@ -10,5 +10,11 @@ import (
 // registerServices register services in app struct.
 func (a *App) registerServices(ctx context.Context) {
 	a.statisticsService = statistics.NewService(ctx, a.statisticsRepo, a.logger)
-	a.filmService = film.NewService(a.filmPostgres, a.statisticsService, a.logger)
+	a.filmService = film.NewService(
+		a.filmPostgres,
+		a.filmRedisCache,
+		a.filmLocalCache,
+		a.statisticsService,
+		a.logger,
+	)
 }

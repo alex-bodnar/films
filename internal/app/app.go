@@ -50,6 +50,8 @@ type (
 		// Repository dependencies.
 		filmPostgres   repository.FilmPostgres
 		statisticsRepo repository.Statistics
+		filmRedisCache repository.FilmCache
+		filmLocalCache repository.FilmCache
 
 		// Service dependencies.
 		filmService       services.FilmService

@@ -1,9 +1,8 @@
 package statistics
 
 import (
-	"time"
-
 	"films-api/internal/api/domain/statistics"
+	"time"
 )
 
 type (
@@ -15,11 +14,11 @@ type (
 
 	// filmStatistic database model.
 	filmStatistic struct {
-		ID         int64         `db:"id"`
-		Request    string        `db:"request"`
-		TimeDB     time.Duration `db:"time_db"`
-		TimeRedis  time.Duration `db:"time_redis"`
-		TimeMemory time.Duration `db:"time_memory"`
+		ID         int64  `db:"id"`
+		Request    string `db:"request"`
+		TimeDB     int64  `db:"time_db"`
+		TimeRedis  int64  `db:"time_redis"`
+		TimeMemory int64  `db:"time_memory"`
 	}
 )
 
@@ -28,9 +27,9 @@ func toDatabase(stat statistics.FilmStatistic) filmStatistic {
 	return filmStatistic{
 		ID:         stat.ID,
 		Request:    stat.Request,
-		TimeDB:     stat.TimeDB,
-		TimeRedis:  stat.TimeRedis,
-		TimeMemory: stat.TimeMemory,
+		TimeDB:     stat.TimeDB.Microseconds(),
+		TimeRedis:  stat.TimeRedis.Microseconds(),
+		TimeMemory: stat.TimeMemory.Microseconds(),
 	}
 }
 
@@ -39,9 +38,9 @@ func (f filmStatistic) toDomain() statistics.FilmStatistic {
 	return statistics.FilmStatistic{
 		ID:         f.ID,
 		Request:    f.Request,
-		TimeDB:     f.TimeDB,
-		TimeRedis:  f.TimeRedis,
-		TimeMemory: f.TimeMemory,
+		TimeDB:     time.Duration(int64(time.Microsecond) * f.TimeDB),
+		TimeRedis:  time.Duration(int64(time.Microsecond) * f.TimeRedis),
+		TimeMemory: time.Duration(int64(time.Microsecond) * f.TimeMemory),
 	}
 }
 

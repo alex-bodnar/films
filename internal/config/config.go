@@ -24,6 +24,7 @@ type (
 		Logger   log.Config `yaml:"logger" valid:"check,deep"`
 		Storage  Storage    `yaml:"storage" valid:"check,deep"`
 		Delivery Delivery   `yaml:"delivery" valid:"check,deep"`
+		Extra    Extra      `yaml:"extra" valid:"check,deep"`
 	}
 
 	// Storage defines database engines configuration
@@ -45,6 +46,23 @@ type (
 		WriteTimeout       time.Duration `yaml:"write-timeout" valid:"required"`
 		BodySizeLimitBytes int           `yaml:"body-size-limit" valid:"required"`
 		GracefulTimeout    int           `yaml:"graceful-timeout" valid:"required"`
+	}
+
+	// Extra defines business configuration
+	Extra struct {
+		RedisCache RedisCache `yaml:"redis-cache" valid:"check,deep"`
+		LocalCache LocalCache `yaml:"local-cache" valid:"check,deep"`
+	}
+
+	// RedisCache defines redis cache configuration.
+	RedisCache struct {
+		TimeLive time.Duration `yaml:"time-live" valid:"required"`
+	}
+
+	// LocalCache defines redis cache configuration.
+	LocalCache struct {
+		TimeLive        time.Duration `yaml:"time-live" valid:"required"`
+		NumberOfRecords int           `yaml:"number-of-records" valid:"required"`
 	}
 )
 

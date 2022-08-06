@@ -14,6 +14,9 @@ func (c Config) Validate() []string {
 	if e := c.Delivery.Validate(); len(e) > 0 {
 		errs = append(errs, e...)
 	}
+	if e := c.Extra.Validate(); len(e) > 0 {
+		errs = append(errs, e...)
+	}
 
 	return errs
 }
@@ -58,6 +61,42 @@ func (h HTTPServer) Validate() []string {
 	}
 	if h.GracefulTimeout == 0 {
 		errs = append(errs, "graceful_timeout::is_required")
+	}
+
+	return errs
+}
+
+// Validate validates struct accordingly to fields tags
+func (e Extra) Validate() []string {
+	var errs []string
+	if e := e.RedisCache.Validate(); len(e) > 0 {
+		errs = append(errs, e...)
+	}
+	if e := e.LocalCache.Validate(); len(e) > 0 {
+		errs = append(errs, e...)
+	}
+
+	return errs
+}
+
+// Validate validates struct accordingly to fields tags
+func (r RedisCache) Validate() []string {
+	var errs []string
+	if r.TimeLive == 0 {
+		errs = append(errs, "time_live::is_required")
+	}
+
+	return errs
+}
+
+// Validate validates struct accordingly to fields tags
+func (l LocalCache) Validate() []string {
+	var errs []string
+	if l.TimeLive == 0 {
+		errs = append(errs, "time_live::is_required")
+	}
+	if l.NumberOfRecords == 0 {
+		errs = append(errs, "number_of_records::is_required")
 	}
 
 	return errs

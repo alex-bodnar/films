@@ -33,3 +33,10 @@ delivery:
     write-timeout: 20s
     body-size-limit: 10128
     graceful-timeout: 60
+
+extra:
+  redis-cache:
+    time-live: 30s
+  local-cache:
+    time-live: 15s
+    number-of-records: 100

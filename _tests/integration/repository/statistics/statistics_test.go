@@ -2,6 +2,7 @@ package statistics
 
 import (
 	"context"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -9,7 +10,6 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 	_ "github.com/jackc/pgx/stdlib"
 	"github.com/jmoiron/sqlx"
-	"gotest.tools/assert"
 
 	"films-api/internal/api/domain/statistics"
 	repo "films-api/internal/api/repository/statistics"
@@ -38,12 +38,7 @@ func TestRepository_GetByRequest(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 			},
-			want: statistics.FilmStatistic{
-				Request:    "/film/" + strings.ToLower(gofakeit.FirstName()),
-				TimeDB:     time.Duration(int64(gofakeit.Number(int(time.Millisecond*80), int(time.Second)))),
-				TimeRedis:  time.Duration(int64(gofakeit.Number(int(time.Millisecond*40), int(time.Millisecond*80)))),
-				TimeMemory: time.Duration(int64(gofakeit.Number(int(time.Millisecond), int(time.Millisecond*40)))),
-			},
+			want:    fakeStatistic(),
 			wantErr: false,
 		},
 	}
@@ -63,7 +58,9 @@ func TestRepository_GetByRequest(t *testing.T) {
 
 			got.ID = 0
 
-			assert.DeepEqual(t, got, tt.want)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Repository.GetByRequest() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }
@@ -88,13 +85,8 @@ func TestRepository_Create(t *testing.T) {
 		{
 			name: "success create statistic",
 			args: args{
-				ctx: context.Background(),
-				stat: statistics.FilmStatistic{
-					Request:    "/film/" + strings.ToLower(gofakeit.FirstName()),
-					TimeDB:     time.Duration(int64(gofakeit.Number(int(time.Millisecond*80), int(time.Second)))),
-					TimeRedis:  time.Duration(int64(gofakeit.Number(int(time.Millisecond*40), int(time.Millisecond*80)))),
-					TimeMemory: time.Duration(int64(gofakeit.Number(int(time.Millisecond), int(time.Millisecond*40)))),
-				},
+				ctx:  context.Background(),
+				stat: fakeStatistic(),
 			},
 		},
 	}
@@ -114,7 +106,9 @@ func TestRepository_Create(t *testing.T) {
 
 			got.ID = 0
 
-			assert.DeepEqual(t, got, tt.args.stat)
+			if !reflect.DeepEqual(got, tt.args.stat) {
+				t.Errorf("Repository.GetByRequest() = %v, want %v", got, tt.args.stat)
+			}
 		})
 	}
 }
@@ -138,13 +132,8 @@ func TestRepository_Update(t *testing.T) {
 		{
 			name: "success update statistic",
 			args: args{
-				ctx: context.Background(),
-				stat: statistics.FilmStatistic{
-					Request:    "/film/" + strings.ToLower(gofakeit.FirstName()),
-					TimeDB:     time.Duration(int64(gofakeit.Number(int(time.Millisecond*80), int(time.Second)))),
-					TimeRedis:  time.Duration(int64(gofakeit.Number(int(time.Millisecond), int(time.Millisecond*40)))),
-					TimeMemory: time.Duration(int64(gofakeit.Number(int(time.Millisecond*40), int(time.Millisecond*80)))),
-				},
+				ctx:  context.Background(),
+				stat: fakeStatistic(),
 			},
 		},
 	}
@@ -210,5 +199,18 @@ func TestRepository_GetAll(t *testing.T) {
 				return
 			}
 		})
+	}
+}
+
+func fakeStatistic() statistics.FilmStatistic {
+	timeDB := time.Duration(int64(gofakeit.Number(int(time.Millisecond*80), int(time.Second))))
+	timeRedis := time.Duration(int64(gofakeit.Number(int(time.Millisecond*40), int(time.Millisecond*80))))
+	timeMemory := time.Duration(int64(gofakeit.Number(int(time.Millisecond), int(time.Millisecond*40))))
+
+	return statistics.FilmStatistic{
+		Request:    "/film/" + strings.ToLower(gofakeit.FirstName()),
+		TimeDB:     time.Duration(int64(time.Microsecond) * timeDB.Microseconds()),
+		TimeRedis:  time.Duration(int64(time.Microsecond) * timeRedis.Microseconds()),
+		TimeMemory: time.Duration(int64(time.Microsecond) * timeMemory.Microseconds()),
 	}
 }

@@ -131,3 +131,55 @@ func (mr *MockStatisticsMockRecorder) Update(ctx, stat interface{}) *gomock.Call
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStatistics)(nil).Update), ctx, stat)
 }
+
+// MockFilmCache is a mock of FilmCache interface.
+type MockFilmCache struct {
+	ctrl     *gomock.Controller
+	recorder *MockFilmCacheMockRecorder
+}
+
+// MockFilmCacheMockRecorder is the mock recorder for MockFilmCache.
+type MockFilmCacheMockRecorder struct {
+	mock *MockFilmCache
+}
+
+// NewMockFilmCache creates a new mock instance.
+func NewMockFilmCache(ctrl *gomock.Controller) *MockFilmCache {
+	mock := &MockFilmCache{ctrl: ctrl}
+	mock.recorder = &MockFilmCacheMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockFilmCache) EXPECT() *MockFilmCacheMockRecorder {
+	return m.recorder
+}
+
+// GetByName mocks base method.
+func (m *MockFilmCache) GetByName(ctx context.Context, name string) (film.FilmList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByName", ctx, name)
+	ret0, _ := ret[0].(film.FilmList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByName indicates an expected call of GetByName.
+func (mr *MockFilmCacheMockRecorder) GetByName(ctx, name interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByName", reflect.TypeOf((*MockFilmCache)(nil).GetByName), ctx, name)
+}
+
+// SetByName mocks base method.
+func (m *MockFilmCache) SetByName(ctx context.Context, name string, data film.FilmList) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetByName", ctx, name, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetByName indicates an expected call of SetByName.
+func (mr *MockFilmCacheMockRecorder) SetByName(ctx, name, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetByName", reflect.TypeOf((*MockFilmCache)(nil).SetByName), ctx, name, data)
+}
