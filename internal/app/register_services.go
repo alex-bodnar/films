@@ -1,10 +1,14 @@
 package app
 
 import (
+	"context"
+
 	"films-api/internal/api/services/film"
+	"films-api/internal/api/services/statistics"
 )
 
 // registerServices register services in app struct.
-func (a *App) registerServices() {
-	a.filmService = film.NewService(a.filmPostgres, a.logger)
+func (a *App) registerServices(ctx context.Context) {
+	a.statisticsService = statistics.NewService(ctx, a.statisticsRepo, a.logger)
+	a.filmService = film.NewService(a.filmPostgres, a.statisticsService, a.logger)
 }

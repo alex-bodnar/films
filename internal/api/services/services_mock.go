@@ -7,6 +7,7 @@ package services
 import (
 	context "context"
 	film "films-api/internal/api/domain/film"
+	statistics "films-api/internal/api/domain/statistics"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -48,4 +49,54 @@ func (m *MockFilmService) GetByName(ctx context.Context, name string) (film.Film
 func (mr *MockFilmServiceMockRecorder) GetByName(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByName", reflect.TypeOf((*MockFilmService)(nil).GetByName), ctx, name)
+}
+
+// MockStatistics is a mock of Statistics interface.
+type MockStatistics struct {
+	ctrl     *gomock.Controller
+	recorder *MockStatisticsMockRecorder
+}
+
+// MockStatisticsMockRecorder is the mock recorder for MockStatistics.
+type MockStatisticsMockRecorder struct {
+	mock *MockStatistics
+}
+
+// NewMockStatistics creates a new mock instance.
+func NewMockStatistics(ctrl *gomock.Controller) *MockStatistics {
+	mock := &MockStatistics{ctrl: ctrl}
+	mock.recorder = &MockStatisticsMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockStatistics) EXPECT() *MockStatisticsMockRecorder {
+	return m.recorder
+}
+
+// GetAll mocks base method.
+func (m *MockStatistics) GetAll(ctx context.Context, limit, offset uint64) (statistics.FilmStatisticList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAll", ctx, limit, offset)
+	ret0, _ := ret[0].(statistics.FilmStatisticList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAll indicates an expected call of GetAll.
+func (mr *MockStatisticsMockRecorder) GetAll(ctx, limit, offset interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockStatistics)(nil).GetAll), ctx, limit, offset)
+}
+
+// Update mocks base method.
+func (m *MockStatistics) Update(stat statistics.FilmStatistic) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Update", stat)
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockStatisticsMockRecorder) Update(stat interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStatistics)(nil).Update), stat)
 }

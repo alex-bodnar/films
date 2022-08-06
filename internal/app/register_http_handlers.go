@@ -2,6 +2,7 @@ package app
 
 import (
 	"films-api/internal/api/delivery/http/film"
+	"films-api/internal/api/delivery/http/statistics"
 	"films-api/internal/api/delivery/http/status"
 )
 
@@ -16,4 +17,5 @@ func (a *App) registerHTTPHandlers() {
 	)
 
 	a.filmHTTPHandler = film.NewHandler(a.filmService)
+	a.statisticsHTTPHandler = statistics.NewHandler(a.statisticsService)
 }

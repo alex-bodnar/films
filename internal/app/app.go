@@ -48,14 +48,17 @@ type (
 		responder responder.Responder
 
 		// Repository dependencies.
-		filmPostgres repository.FilmPostgres
+		filmPostgres   repository.FilmPostgres
+		statisticsRepo repository.Statistics
 
 		// Service dependencies.
-		filmService services.FilmService
+		filmService       services.FilmService
+		statisticsService services.Statistics
 
 		// Delivery dependencies.
-		statusHTTPHandler delivery.StatusHTTP
-		filmHTTPHandler   delivery.FilmHTTP
+		statusHTTPHandler     delivery.StatusHTTP
+		filmHTTPHandler       delivery.FilmHTTP
+		statisticsHTTPHandler delivery.StatisticsHTTP
 	}
 
 	worker func(ctx context.Context, a *App)
@@ -87,7 +90,7 @@ func (a *App) Run(ctx context.Context) {
 
 	// Domain registration.
 	a.registerRepositories()
-	a.registerServices()
+	a.registerServices(ctx)
 
 	// Register Handlers
 	a.registerHTTPHandlers()

@@ -14,4 +14,9 @@ type (
 	FilmHTTP interface {
 		GetByName(ctx *fiber.Ctx) error
 	}
+
+	// StatisticsHTTP – describes an interface for work with statistics over HTTP.
+	StatisticsHTTP interface {
+		GetAll(ctx *fiber.Ctx) error
+	}
 )
