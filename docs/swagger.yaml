@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  description: Endpoints documentation.
+  title: Films REST API.
+  version: "0.0.1"
+servers:
+  - url: http://127.0.0.1:40001/v1
+    description: Films-API local endpoint
+
+# =================== PATHS =========================
+paths:
+  /films-api/status:
+    get:
+      description: |
+        Returns service info.
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.Status"
+      summary: get status
+      tags:
+        - Status
+
+  #   #==================== FILMS ==========================
+  /films-api/film/{title}:
+    get:
+      description: |
+        Search films by title.
+      parameters:
+        - in: path
+          name: title
+          required: true
+          schema:
+            type: string
+            format: string
+            example: rocky
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.Films"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BadRequestFilm"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responses.NotFoundFilm"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responses.InternalServerError"
+      summary: get film
+      tags:
+        - Film
+
+  #   #==================== STATISTIC ==========================
+
+  /films-api/statistics:
+    get:
+      description: |
+        Returns get time statistics.
+      parameters:
+        - $ref: "#/components/parameters/offsetParam"
+        - $ref: "#/components/parameters/limitParam"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.Statistics"
+        204:
+          description: No Content
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BadRequestStatistics"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responses.InternalServerError"
+      summary: get statistics
+      tags:
+        - Statistics
+
+components:
+  # ================= PARAMETERS ====================
+  parameters:
+    offsetParam:
+      in: query
+      name: offset
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 1
+      description: The number of items to skip before starting to collect the result set.
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 20
+      description: The numbers of items to return.
+
+  # ================= MODELS ====================
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        offset:
+          type: integer
+          minimum: 0
+          description: offset of records
+          example: 0
+        limit:
+          type: integer
+          maximum: 100
+          minimum: 0
+          description: records on the page from offset
+          example: 20
+        total:
+          type: integer
+          description: total records count
+          example: 1
+
+    models.Status:
+      properties:
+        name:
+          description: Service name
+          example: film-service
+          format: string
+        version:
+          description: Service version
+          example: "0.0.1"
+          format: string
+        tag:
+          description: Service build tag
+          example: "0.0.1"
+          format: string
+        commit:
+          description: Hash of commit
+          example: 7b7eefc805b4877004f802e7ec5e4d1e087b174d
+          format: string
+        date:
+          description: Build date
+          example: 22-08-06T22:31:35Z
+          format: string
+        fortune_cookie:
+          description: Fortune cookie
+          example: It s what you learn after you know it all that counts.-- John Wooden
+          format: string
+
+    models.Actor:
+      properties:
+        actor_id:
+          description: Actor ID
+          example: 1
+          format: integer
+        name:
+          description: Actor first name
+          example: John
+          format: string
+        last_name:
+          description: Actor last name
+          example: Doe
+          format: string
+
+    models.Category:
+      properties:
+        category_id:
+          description: Category ID
+          example: 1
+          format: integer
+        name:
+          description: Category name
+          example: Comedy
+          format: string
+
+    models.Film:
+      properties:
+        id:
+          description: Film id
+          example: 1
+          format: integer
+        name:
+          description: Film name
+          example: Rocky
+          format: string
+        description:
+          description: Film description
+          example: Rocky is a great film.
+          format: string
+        release_year:
+          description: Film release year
+          example: 2020
+          format: integer
+        language:
+          description: Film language
+          example: English
+          format: string
+        rental_duration:
+          description: Film rental duration
+          example: 6
+          format: integer
+        rental_rate:
+          description: Film rental rate
+          example: 2.99
+          format: number
+        length:
+          description: Film length
+          example: 130
+          format: integer
+        replacement_cost:
+          description: Film replacement cost
+          example: 19.99
+          format: number
+        rating:
+          description: Film rating
+          example: PG
+          format: string
+        special_features:
+          description: Film special features
+          example: [ "Trailers", "Deleted Scenes" ]
+          format: array
+        last_update:
+          description: Film last update
+          example: "2020-08-22T22:31:35Z"
+          format: string
+        actors:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.Actor"
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.Category"
+
+    models.Films:
+      properties:
+        total:
+          description: Total number of films
+          example: 1
+          format: integer
+        films:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.Film"
+
+    models.FilmStatistics:
+      properties:
+        id:
+          description: id
+          example: 1
+          format: integer
+        request:
+          description: request
+          example: "/film/rocky"
+          format: string
+        time_db:
+          description: request time to data base
+          example: 614655
+          format: integer
+        time_redis:
+          description: request time to redis
+          example: 508
+          format: integer
+        time_memory:
+          description: request time to memory
+          example: 192
+          format: integer
+
+    models.Statistics:
+      type: object
+      properties:
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        film_statistics:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.FilmStatistics"
+
+    models.BadRequestFilm:
+      description: "Bad Request"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "title::is_required"
+
+    models.BadRequestStatistics:
+      description: "Bad Request"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "[pagination]::invalid"
+
+    responses.InternalServerError:
+      description: "Internal server error"
+      type: object
+      properties:
+        error:
+          type: string
+          description: "Error message"
+          example: "internal_server_error"
+
+    responses.NotFoundFilm: # 404
+      description: "Not Found Film"
+      type: object
+      properties:
+        error:
+          type: string
+          description: "Error message"
+          example: "not_found - film"

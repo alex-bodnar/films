@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  redis-store:
+    image: redis
+    container_name: redis-store
+    networks:
+      - backend
+    restart: always
+    command: redis-server
+
+  film-service:
+    container_name: film-service
+    working_dir: /
+    restart: always
+    volumes:
+      - ./volume/config.compose.yaml:/config.yaml
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: film-service
+    depends_on:
+      - redis-store
+    ports:
+      - "40001:40001"
+    networks:
+      - backend
+
+networks:
+  backend:

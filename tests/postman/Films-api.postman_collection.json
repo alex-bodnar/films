@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "0d64c38d-8589-4ee7-898d-d5f104d1ea2d",
+		"name": "Films-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Film",
+			"item": [
+				{
+					"name": "Get film by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40001/v1/films-api/film/:title",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40001",
+							"path": [
+								"v1",
+								"films-api",
+								"film",
+								":title"
+							],
+							"variable": [
+								{
+									"key": "title",
+									"value": "rocky"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40001/v1/films-api/statistics",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40001",
+							"path": [
+								"v1",
+								"films-api",
+								"statistics"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:40001/v1/films-api/status",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "40001",
+					"path": [
+						"v1",
+						"films-api",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

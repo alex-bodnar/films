@@ -38,7 +38,7 @@ func (r Repository) GetByName(ctx context.Context, name string) (film.FilmList, 
               FROM film 
               INNER JOIN language
                   ON film.language_id = language.language_id
-              WHERE fulltext @@ plainto_tsquery($1)`
+              WHERE fulltext @@ plainto_tsquery('english', $1)`
 
 	var result filmList
 	if err := r.db.SelectContext(ctx, &result, query, name); err != nil {

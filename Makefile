@@ -21,17 +21,17 @@ LDFLAGS=" \
 all: run
 
 test:
-	go clean -testcache ./...
-	go test ./...
+	go clean -testcache ./internal/...
+	go test ./internal/...
 
 build:
 	cd cmd && go build -ldflags=$(LDFLAGS) -o ../build/$(APP_NAME) ./.
 
 run:
-	cd cmd; go run -ldflags=$(LDFLAGS) -race main.go -c config.yaml
+	cd cmd; go run -ldflags=$(LDFLAGS) -race main.go -c ../volume/config.yaml
 
-run-build: build
-	cd build/ && ./$(APP_NAME) -c ../cmd/config.yaml
+run-build: mod build
+	cd build/ && ./$(APP_NAME) -c ../volume/config.yaml
 
 clean:
 	go clean ./...
@@ -53,3 +53,13 @@ build-docker:
 	--build-arg COMMIT_LAST=$(COMMIT_LAST) \
 	-t $(APP_NAME) .;
 	rm -r vendor
+
+start-docker-compose:
+	go mod vendor;
+	docker-compose up
+
+swagger-generate:
+	redoc-cli build docs/swagger.yaml -o docs/index.html
+
+swagger-serve:
+	redoc-cli serve docs/swagger.yaml

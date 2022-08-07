@@ -8,7 +8,8 @@ logger:
 
 storage:
   postgres:
-    connection-string: "host=localhost port=5432 user=postgres dbname=dvdrental password=postgres sslmode=disable"
+    connection-string: "host=dumbo.db.elephantsql.com user=wjvawxmp dbname=wjvawxmp password=kqxLJRwAp1OccCF2_pcwHE6DVbG76v_6 sslmode=disable"
+    # connection-string: "host=localhost port=5432 user=postgres dbname=dvdrental password=postgres sslmode=disable"
     driver: pgx
     dialect: postgres
     max-retries: 5

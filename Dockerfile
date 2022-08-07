@@ -28,4 +28,4 @@ ENV BINARY_NAME=$APP_NAME
 RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 
 COPY --from=builder /build/$APP_NAME /usr/bin/$APP_NAME
-ENTRYPOINT $BINARY_NAME
+ENTRYPOINT /usr/bin/$BINARY_NAME -c config.yaml
