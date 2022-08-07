@@ -24,6 +24,9 @@ test:
 	go clean -testcache ./internal/...
 	go test ./internal/...
 
+test-service:
+	go test ./tests/service/service_test.go -test.v
+
 build:
 	cd cmd && go build -ldflags=$(LDFLAGS) -o ../build/$(APP_NAME) ./.
 

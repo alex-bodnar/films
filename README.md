@@ -28,3 +28,8 @@ If yor wont to see swagger documentation, yor will need:
 - installed [redoc-cli](https://redocly.com/docs/redoc/deployment/cli/)
 - run ```make swagger-serve```
 - open http://127.0.0.1:8080 on your browser
+
+## Test
+For running service test, yor will need:
+- run ```make run``` for start app
+- in other terminal run ```make test-service``` for start test
